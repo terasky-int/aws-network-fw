@@ -1,5 +1,5 @@
 # Create subnet 
-data "aws_subnet" "subnet" {
+data "aws_subnets" "subnet" {
   vpc_id = "vpc-0b6f28f8eb88d1b4f"
 }
 
@@ -9,7 +9,7 @@ resource "aws_networkfirewall_firewall" "network_firewall" {
   vpc_id = var.vpc_id
   firewall_policy_arn = aws_networkfirewall_firewall_policy.network_firewall_policy1
     dynamic "subnet_mapping" {
-    for_each = data.aws_subnet.subnet[*].id
+    for_each = data.aws_subnets.subnet[*].ids
 
     content {
       subnet_id = subnet.value
