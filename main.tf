@@ -1,13 +1,7 @@
 # Create subnet 
 data "aws_subnet" "subnet" {
-  vpc_id = var.vpc_id
+  vpc_id = "vpc-0b6f28f8eb88d1b4f"
 }
-
-output "name" {
-  value = data.aws_subnet.subnet.id
-}
-
-
 
 # Create Firewall
 resource "aws_networkfirewall_firewall" "network_firewall" {
