@@ -22,7 +22,7 @@ resource "aws_networkfirewall_firewall_policy" "network_firewall_policy1" {
   name = var.policy_name
   firewall_policy {
     stateful_default_actions = [ "aws:pass" ]
-    stateless_fragment_default_actions = [ "aws:pass" ]
+    stateless_fragment_default_actions = [ "aws:drop" ]
     stateless_default_actions = [ "aws:pass" ]
   }
 }
