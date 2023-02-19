@@ -3,6 +3,10 @@ data "aws_subnet" "subnet" {
   vpc_id = var.vpc_id
 }
 
+output "name" {
+  value = data.aws_subnet.subnet.id
+}
+
 
 
 # Create Firewall
