@@ -14,53 +14,53 @@ variable "firewall_name" {
 }
 
 
-variable "public_subnet_cidrs" {
-  description = "A list of CIDRs for public subnets"
-  type        = list(string)
-}
+# variable "public_subnet_cidrs" {
+#   description = "A list of CIDRs for public subnets"
+#   type        = list(string)
+# }
 
-variable "public_subnet_suffix" {
-  description = "Public subnet suffix"
-  type        = string
-  default     = "public"
-}
-
-
-variable "public_subnet_tags" {
-  description = "Public subnet tags"
-  type        = map(string)
-  default = {
-    Tier = "public"
-  }
-}
+# variable "public_subnet_suffix" {
+#   description = "Public subnet suffix"
+#   type        = string
+#   default     = "public"
+# }
 
 
-variable "firewall_subnet_cidrs" {
-  description = "A list of CIDRs for firewall subnets"
-  type        = list(string)
-}
+# variable "public_subnet_tags" {
+#   description = "Public subnet tags"
+#   type        = map(string)
+#   default = {
+#     Tier = "public"
+#   }
+# }
 
-variable "firewall_subnet_suffix" {
-  description = "FIrewall subnet suffix"
-  type        = string
-  default     = "firewall"
-}
 
-variable "firewall_subnet_tags" {
-  description = "Firewall subnet tags"
-  type        = map(string)
-  default = {
-    Tier = "firewall"
-  }
-}
+# variable "firewall_subnet_cidrs" {
+#   description = "A list of CIDRs for firewall subnets"
+#   type        = list(string)
+# }
 
-variable "tgw_id" {
-  description = "ID of Transit Gateway to create routes to"
-  type        = string
-}
+# variable "firewall_subnet_suffix" {
+#   description = "FIrewall subnet suffix"
+#   type        = string
+#   default     = "firewall"
+# }
 
-variable "nfw_log_bucket_name" {
-  description = "The name of the S3 bucket where Network Firewall logs will be pushed"
-  type        = string
-  default     = "aws-network-firewall-flow-logs-131324221487"
-}
+# variable "firewall_subnet_tags" {
+#   description = "Firewall subnet tags"
+#   type        = map(string)
+#   default = {
+#     Tier = "firewall"
+#   }
+# }
+
+# variable "tgw_id" {
+#   description = "ID of Transit Gateway to create routes to"
+#   type        = string
+# }
+
+# variable "nfw_log_bucket_name" {
+#   description = "The name of the S3 bucket where Network Firewall logs will be pushed"
+#   type        = string
+#   default     = "aws-network-firewall-flow-logs-131324221487"
+# }
