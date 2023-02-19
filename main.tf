@@ -3,6 +3,7 @@
 resource "aws_networkfirewall_firewall" "network_firewall" {
   name = "example-firewall"
   vpc_id = "vpc-0b6f28f8eb88d1b4f"
+  firewall_policy_arn = aws_networkfirewall_firewall_policy.network_firewall_policy1
 }
 
 # Create Firewall policy
