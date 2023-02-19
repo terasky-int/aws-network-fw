@@ -6,10 +6,6 @@ data "aws_subnets" "subnet" {
   }
 }
 
-data "" "name" {
-  
-}
-
 # Create Firewall
 resource "aws_networkfirewall_firewall" "network_firewall" {
   name = var.firewall_name
