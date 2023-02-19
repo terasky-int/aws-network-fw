@@ -12,11 +12,10 @@ resource "aws_networkfirewall_firewall" "network_firewall" {
   vpc_id = var.vpc_id
   firewall_policy_arn = aws_networkfirewall_firewall_policy.network_firewall_policy1
   subnet_mapping {
-    subnet_id = data.aws_subnets.subnet[*].ids
-  }
+    subnet_id = "subnet-0c2edb2d08b2af71c"
 
 }
-
+}
 # Create Firewall policy
 
 resource "aws_networkfirewall_firewall_policy" "network_firewall_policy1" {
