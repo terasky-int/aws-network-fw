@@ -46,7 +46,7 @@ resource "aws_networkfirewall_firewall" "network_firewall" {
 resource "aws_networkfirewall_firewall_policy" "policy_allow_all" {
   name = var.policy_name
   firewall_policy {
-    stateful_default_actions = [ "aws:pass" ]
+    stateless_default_actions = [ "aws:pass" ]
     stateless_fragment_default_actions = [ "aws:pass" ]
   }
 }
