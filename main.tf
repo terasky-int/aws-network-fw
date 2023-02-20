@@ -45,28 +45,8 @@ resource "aws_networkfirewall_firewall" "network_firewall" {
 
 resource "aws_networkfirewall_firewall_policy" "policy_allow_all" {
   name = var.policy_name
-
   firewall_policy {
-    stateless_default_actions          = ["aws:pass"]
-    stateless_fragment_default_actions = ["aws:drop"]
-    stateless_rule_group_reference {
-      priority     = 1
-      resource_arn = aws_networkfirewall_rule_group.rule_group.arn
-    }
-  }
-}
-
-resource "aws_networkfirewall_rule_group" "rule_group" {
-  capacity = 100
-  name     = "example"
-  type     = "STATEFUL"
-  rule_group {
-    rules_source {
-      rules_source_list {
-        generated_rules_type = "DENYLIST"
-        target_types         = ["HTTP_HOST"]
-        targets              = ["ynet.co.il"]
-      }
-    }
+    stateful_default_actions = [ "aws:pass" ]
+    stateless_fragment_default_actions = [ "aws:pass" ]
   }
 }
