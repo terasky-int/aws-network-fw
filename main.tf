@@ -1,15 +1,15 @@
 
 
-# # Create Firewall
-# resource "aws_networkfirewall_firewall" "network_firewall" {
-#   name = var.firewall_name
-#   vpc_id = var.vpc_id
-#   firewall_policy_arn = aws_networkfirewall_firewall_policy.network_firewall_policy1.arn
-#   subnet_mapping {
-#     subnet_id = "subnet-0c2edb2d08b2af71c"
+# Create Firewall
+resource "aws_networkfirewall_firewall" "network_firewall" {
+  name = var.firewall_name
+  vpc_id = var.vpc_id
+  firewall_policy_arn = aws_networkfirewall_firewall_policy.policy_allow_all.arn
+  subnet_mapping {
+    subnet_id = "subnet-0c2edb2d08b2af71c"
 
-# }
-# }
+}
+}
 # # Create Firewall policy
 
 # resource "aws_networkfirewall_firewall_policy" "network_firewall_policy1" {
