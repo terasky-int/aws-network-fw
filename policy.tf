@@ -1,5 +1,5 @@
 resource "aws_networkfirewall_firewall_policy" "this" {
-count = var.enabled ? 1 : 0
+  count = var.enabled ? 1 : 0
 
   name = var.policy_name
 
@@ -7,15 +7,15 @@ count = var.enabled ? 1 : 0
     stateless_default_actions          = var.stateless_default_actions
     stateless_fragment_default_actions = var.stateless_fragment_default_actions
 
-      # Stateless rule group reference
+    # Stateless rule group reference
     dynamic "stateless_rule_group_reference" {
       for_each = var.stateless_rule_groups
       content {
         priority     = lookup(stateless_rule_group_reference.value, "priority")
         resource_arn = aws_networkfirewall_rule_group.stateless_rule_group[stateless_rule_group_reference.key].arn
       }
-  }
-      # Stateful rule group reference
+    }
+    # Stateful rule group reference
     dynamic "stateful_rule_group_reference" {
       for_each = var.stateful_rule_groups
       content {

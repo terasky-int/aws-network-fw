@@ -11,7 +11,7 @@ variable "vpc_id" {
 }
 
 variable "subnet_mapping" {
-  type = list(string)
+  type        = list(string)
   description = "Subnets map. Each subnet must belong to a different Availability Zone in the VPC. AWS Network Firewall creates a firewall endpoint in each subnet."
 }
 
