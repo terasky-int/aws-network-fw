@@ -1,5 +1,5 @@
 resource "aws_networkfirewall_firewall_policy" "this" {
-  count = var.enabled ? 1 : 0
+  count = var.create_aws_nfw ? 1 : 0
 
   name = var.policy_name
 
@@ -32,7 +32,7 @@ resource "aws_networkfirewall_rule_group" "stateless_rule_group" {
 
   for_each = {
     for k, v in var.stateless_rule_groups :
-    k => v if var.enabled
+    k => v if var.create_aws_nfw
   }
 
   name        = each.key
@@ -117,7 +117,7 @@ resource "aws_networkfirewall_rule_group" "stateful_rule_group" {
 
   for_each = {
     for k, v in var.stateful_rule_groups :
-    k => v if var.enabled
+    k => v if var.create_aws_nfw
   }
 
   name        = each.key

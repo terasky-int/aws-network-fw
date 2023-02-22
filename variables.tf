@@ -15,7 +15,7 @@ variable "subnet_mapping" {
   description = "Subnets map. Each subnet must belong to a different Availability Zone in the VPC. AWS Network Firewall creates a firewall endpoint in each subnet."
 }
 
-variable "enabled" {
+variable "create_aws_nfw" {
   description = "Change to false to avoid deploying AWS Network Firewall resources."
   type        = bool
   default     = true
@@ -64,3 +64,11 @@ variable "stateless_default_actions" {
   type        = list(any)
   default     = ["aws:drop"]
 }
+
+variable "nfw_log_bucket_name" {
+  description = "S3 for logging"
+  type = string
+  default = ""
+}
+
+
