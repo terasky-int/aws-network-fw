@@ -1,66 +1,66 @@
-variable "vpc_id" {
-  description = "Get your vpc id"
+variable "firewall_name" {
   type = string
 }
 
 variable "policy_name" {
-  description = "Policy name"
   type = string
 }
 
-variable "firewall_name" {
-  description = "Name of your network firewall"
+variable "vpc_id" {
   type = string
 }
 
+variable "subnet_mapping" {
+  type = list(string)
+  description = "Subnets map. Each subnet must belong to a different Availability Zone in the VPC. AWS Network Firewall creates a firewall endpoint in each subnet."
+}
 
-# variable "public_subnet_cidrs" {
-#   description = "A list of CIDRs for public subnets"
-#   type        = list(string)
-# }
+variable "enabled" {
+  description = "Change to false to avoid deploying AWS Network Firewall resources."
+  type        = bool
+  default     = true
+}
 
-# variable "public_subnet_suffix" {
-#   description = "Public subnet suffix"
-#   type        = string
-#   default     = "public"
-# }
+variable "stateless_fragment_default_actions" {
+  description = "Set of actions to take on a fragmented packet if it does not match any of the stateless rules in the policy. You must specify one of the standard actions including: `aws:drop`, `aws:pass`, or `aws:forward_to_sf`e. In addition, you can specify custom actions that are compatible with your standard action choice. If you want non-matching packets to be forwarded for stateful inspection, specify `aws:forward_to_sfe`."
+  type        = list(any)
+  default     = ["aws:drop"]
+}
 
+variable "firewall_policy_change_protection" {
+  description = "A boolean flag indicating whether it is possible to change the associated firewall policy."
+  type        = bool
+  default     = false
+}
 
-# variable "public_subnet_tags" {
-#   description = "Public subnet tags"
-#   type        = map(string)
-#   default = {
-#     Tier = "public"
-#   }
-# }
+variable "subnet_change_protection" {
+  description = "A boolean flag indicating whether it is possible to change the associated subnet(s)."
+  type        = bool
+  default     = false
+}
 
+variable "delete_protection" {
+  description = "A boolean flag indicating whether it is possible to delete the firewall."
+  type        = bool
+  default     = false
+}
 
-# variable "firewall_subnet_cidrs" {
-#   description = "A list of CIDRs for firewall subnets"
-#   type        = list(string)
-# }
+# Stateful rules
+variable "stateful_rule_groups" {
+  type        = any
+  description = "Map of stateful rules groups."
+  default     = {}
+}
 
-# variable "firewall_subnet_suffix" {
-#   description = "FIrewall subnet suffix"
-#   type        = string
-#   default     = "firewall"
-# }
+# Stateless rule group
+variable "stateless_rule_groups" {
+  type        = any
+  description = "Map of stateless rules groups."
+  default     = {}
+}
 
-# variable "firewall_subnet_tags" {
-#   description = "Firewall subnet tags"
-#   type        = map(string)
-#   default = {
-#     Tier = "firewall"
-#   }
-# }
-
-# variable "tgw_id" {
-#   description = "ID of Transit Gateway to create routes to"
-#   type        = string
-# }
-
-# variable "nfw_log_bucket_name" {
-#   description = "The name of the S3 bucket where Network Firewall logs will be pushed"
-#   type        = string
-#   default     = "aws-network-firewall-flow-logs-131324221487"
-# }
+variable "stateless_default_actions" {
+  description = "Set of actions to take on a packet if it does not match any of the stateless rules in the policy. You must specify one of the standard actions including: `aws:drop`, `aws:pass`, or `aws:forward_to_sf`e. In addition, you can specify custom actions that are compatible with your standard action choice. If you want non-matching packets to be forwarded for stateful inspection, specify `aws:forward_to_sfe`."
+  type        = list(any)
+  default     = ["aws:drop"]
+}
