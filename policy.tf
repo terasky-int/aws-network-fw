@@ -37,7 +37,7 @@ resource "aws_networkfirewall_rule_group" "stateless_rule_group" {
 
   name        = each.key
   description = lookup(each.value, "description")
-  capacity    = lookup(each.value, "capacity", 100)
+  capacity    = lookup(each.value, "capacity", 1000)
   type        = "STATELESS"
 
   rule_group {
@@ -122,7 +122,7 @@ resource "aws_networkfirewall_rule_group" "stateful_rule_group" {
 
   name        = each.key
   description = lookup(each.value, "description")
-  capacity    = lookup(each.value, "capacity", 100)
+  capacity    = lookup(each.value, "capacity", 1000)
   type        = "STATEFUL"
   rule_group {
     # rule variables
