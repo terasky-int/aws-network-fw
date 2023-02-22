@@ -68,7 +68,7 @@ variable "stateless_default_actions" {
 variable "nfw_log_bucket_name" {
   description = "S3 for logging"
   type = string
-  default = ""
+  default = "cf-templates-1kxntv3v0mbw9-eu-west-1"
 }
 
 

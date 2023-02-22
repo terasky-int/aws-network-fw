@@ -23,7 +23,7 @@ resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration
     log_destination_config {
       log_destination = {
         bucketName = var.nfw_log_bucket_name
-        prefix     = "${aws_networkfirewall_firewall.network_firewall[0].name}"
+        prefix     = "${aws_networkfirewall_firewall.network_firewall[0].name}-logs"
       }
       log_destination_type = "S3"
       log_type             = "FLOW"
