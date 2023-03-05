@@ -1,3 +1,5 @@
+
+
 # AWS Network Firewall
 resource "aws_networkfirewall_firewall" "network_firewall" {
   count = var.create_aws_nfw ? 1 : 0
@@ -17,9 +19,23 @@ resource "aws_networkfirewall_firewall" "network_firewall" {
 }
 
 
+
+resource "aws_cloudwatch_log_group" "anfw_alert_log_group" {
+  name = "/aws/${var.environment}/network-firewall/alert"
+}
+
+
 resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration" {
+  count        = var.create_aws_nfw ? 1 : 0
   firewall_arn = aws_networkfirewall_firewall.network_firewall[0].arn
   logging_configuration {
+    log_destination_config {
+      log_destination = {
+        logGroup = aws_cloudwatch_log_group.anfw_alert_log_group.name
+      }
+      log_destination_type = "CloudWatchLogs"
+      log_type = "ALERT"
+    }
     log_destination_config {
       log_destination = {
         bucketName = var.nfw_log_bucket_name
@@ -30,6 +46,11 @@ resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration
     }
   }
 }
+
+
+
+
+
 
 
 
