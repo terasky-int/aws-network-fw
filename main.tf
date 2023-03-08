@@ -2,7 +2,7 @@
 #Create AWS Netwrok Firewall
 ###################################
 resource "aws_networkfirewall_firewall" "network_firewall" {
-  count = var.create_aws_nfw ? 1 : 0
+  count = var.enable_aws_nfw ? 1 : 0
 
   name                              = var.firewall_name
   vpc_id                            = var.vpc_id
@@ -41,7 +41,7 @@ resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration
   depends_on = [
     aws_s3_bucket.s3_logs_anfw
   ]
-  count        = var.create_aws_nfw && var.create_anfw_logs_to_s3 ? 1 : 0
+  count        = var.enable_aws_nfw && var.create_anfw_logs_to_s3 ? 1 : 0
   firewall_arn = aws_networkfirewall_firewall.network_firewall[0].arn
   logging_configuration {
     log_destination_config {
@@ -60,7 +60,7 @@ resource "aws_networkfirewall_logging_configuration" "anfw_logging_cloudwatch" {
   depends_on = [
     aws_networkfirewall_firewall.network_firewall
   ]
-  count = var.create_anfw_logs_to_cloudwatch && var.create_aws_nfw ? 1 : 0
+  count = var.create_anfw_logs_to_cloudwatch && var.enable_aws_nfw ? 1 : 0
 
   firewall_arn = aws_networkfirewall_firewall.network_firewall[0].arn
   logging_configuration {

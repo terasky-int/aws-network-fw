@@ -1,5 +1,5 @@
 resource "aws_networkfirewall_firewall_policy" "this" {
-  count = var.create_aws_nfw ? 1 : 0
+  count = var.enable_aws_nfw ? 1 : 0
 
   name = var.policy_name
 

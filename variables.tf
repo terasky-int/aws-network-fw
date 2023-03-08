@@ -31,7 +31,7 @@ variable "subnet_mapping" {
   description = "Subnets map. Each subnet must belong to a different Availability Zone in the VPC. AWS Network Firewall creates a firewall endpoint in each subnet."
 }
 
-variable "create_aws_nfw" {
+variable "enable_aws_nfw" {
   description = "Change to false to avoid deploying AWS Network Firewall resources."
   type        = bool
   default     = true
