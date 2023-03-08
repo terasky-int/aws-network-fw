@@ -29,5 +29,5 @@ resource "aws_networkfirewall_rule_group" "fivetuple_stateful_group" {
     }
   }
 
-#   tags = merge(var.tags)
+  #   tags = merge(var.tags)
 }

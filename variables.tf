@@ -1,3 +1,16 @@
+variable "create_anfw_logs_to_cloudwatch" {
+  description = "Enable or disable stream logs to cloudwatch"
+  type        = bool
+}
+variable "create_anfw_logs_to_s3" {
+  description = "Enable or disable stream logs from anfw to s3"
+  type        = bool
+}
+variable "bucket_name_logging" {
+  description = "Name of s3 for logging"
+  type        = string
+}
+
 variable "firewall_name" {
   description = "Network firewall name"
   type        = string
@@ -48,6 +61,11 @@ variable "delete_protection" {
   default     = false
 }
 
+variable "prefix_environmnet" {
+  type        = string
+  description = "Name of your environmnet"
+}
+
 # Stateful rules
 variable "stateful_rule_groups" {
   type        = any
@@ -74,10 +92,10 @@ variable "nfw_log_bucket_name" {
 }
 
 variable "fivetuple_stateful_rule_group" {
-  description = "Config for 5-tuple type stateful rule group"
   default     = []
   type        = any
-/*
+  description = <<-EOF
+  "Config for 5-tuple type stateful rule group"
 fivetuple_stateful_rule_group = [
         {
         capacity    = 100
@@ -98,14 +116,15 @@ fivetuple_stateful_rule_group = [
         }]
         },
     ]
-  */
+  EOF
 }
 
 variable "suricata_stateful_rule_group" {
-  description = "Config for Suricata type stateful rule group"
   default     = []
   type        = any
-/*
+  description = <<-EOF
+  "Config for Suricata type stateful rule group"
+
 suricata_stateful_rule_group = [
     {
         capacity    = 100
@@ -113,15 +132,15 @@ suricata_stateful_rule_group = [
         description = "Stateful rule example1 with suricta type"
         rules_file  = "./example.rules"
     }]
-    */
+EOF
 }
 
 
 variable "domain_stateful_rule_group" {
-  description = "Config for domain type stateful rule group"
   default     = []
   type        = any
-/*
+  description = <<-EOF
+  "Config for domain type stateful rule group"
 domain_stateful_rule_group = [
     {
         capacity    = 100
@@ -146,12 +165,7 @@ domain_stateful_rule_group = [
             }]
         }
     }]
-    */
-}
-
-variable "environment" {
-  type = string
-  default = "test-fw"
+    EOF
 }
 
 variable "aws_managed_rule_group" {
@@ -161,9 +175,10 @@ variable "aws_managed_rule_group" {
 }
 
 variable "stateless_rule_group" {
-  description = "Config for stateless rule group"
   type        = any
-/*
+  description = <<-EOF
+  "Config for stateless rule group"
+
     stateless_rule_group = [
         {
         capacity    = 100
@@ -187,41 +202,5 @@ variable "stateless_rule_group" {
             }
         }]
         }]
-        */
+        EOF
 }
-
-
-# variable "vpc_subnets" {
-#   type        = list(string)
-#   default = []
-# }
-
-
-
-# variable "internal_lb_listeners" {
-#   description = "A list of internal load balancer listeners and their configurations"
-#   type = list(object({
-#     protocol          = string
-#     port              = number
-#     service           = string
-#     path_pattern      = optional(string)
-#     rule_priority     = optional(number)
-#     redirect_to_https = optional(bool)
-#     https_port        = optional(number)
-#   }))
-#   default = []
-# }
-#   # Validate protocol
-#   validation {
-#     condition     = alltrue([for listener in var.internal_lb_listeners : contains(["HTTP", "HTTPS", "TCP", "TLS", "UDP"], listener.protocol)])
-#     error_message = "All protocols must be one of HTTP/HTTPS/TCP/TLS/UDP"
-#   }
-
-#   # Validate that "https_port" is configured if "redirect_to_https" is true
-#   validation {
-#     condition     = alltrue([for listener in var.internal_lb_listeners : listener.redirect_to_https == null || listener.redirect_to_https == false || (listener.redirect_to_https == true && listener.https_port != null)])
-#     error_message = "You must specify a value for \"https_port\" if \"redirect_to_https\" is true"
-#   }
-
-
-

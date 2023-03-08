@@ -1,6 +1,6 @@
-
-
-# AWS Network Firewall
+###################################
+#Create AWS Netwrok Firewall
+###################################
 resource "aws_networkfirewall_firewall" "network_firewall" {
   count = var.create_aws_nfw ? 1 : 0
 
@@ -19,26 +19,34 @@ resource "aws_networkfirewall_firewall" "network_firewall" {
 }
 
 
-
+###################### Logging Config ######################
 resource "aws_cloudwatch_log_group" "anfw_alert_log_group" {
-  name = "/aws/${var.environment}/network-firewall/alert"
+  name = "/aws/${var.prefix_environmnet}/network-firewall/alert"
+}
+
+resource "aws_s3_bucket" "s3_logs_anfw" {
+  count         = var.create_anfw_logs_to_s3 ? 1 : 0
+  bucket        = var.bucket_name_logging
+  force_destroy = true
+}
+
+resource "aws_s3_bucket_acl" "logging_bucket_acl" {
+  count  = var.create_anfw_logs_to_s3 ? 1 : 0
+  bucket = aws_s3_bucket.s3_logs_anfw[0].id
+  acl    = "private"
 }
 
 
-resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration" {
-  count        = var.create_aws_nfw ? 1 : 0
+resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration_s3" {
+  depends_on = [
+    aws_s3_bucket.s3_logs_anfw
+  ]
+  count        = var.create_aws_nfw && var.create_anfw_logs_to_s3 ? 1 : 0
   firewall_arn = aws_networkfirewall_firewall.network_firewall[0].arn
   logging_configuration {
     log_destination_config {
       log_destination = {
-        logGroup = aws_cloudwatch_log_group.anfw_alert_log_group.name
-      }
-      log_destination_type = "CloudWatchLogs"
-      log_type = "ALERT"
-    }
-    log_destination_config {
-      log_destination = {
-        bucketName = var.nfw_log_bucket_name
+        bucketName = var.bucket_name_logging
         prefix     = "${aws_networkfirewall_firewall.network_firewall[0].name}-logs"
       }
       log_destination_type = "S3"
@@ -48,9 +56,21 @@ resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration
 }
 
 
+resource "aws_networkfirewall_logging_configuration" "anfw_logging_cloudwatch" {
+  depends_on = [
+    aws_networkfirewall_firewall.network_firewall
+  ]
+  count = var.create_anfw_logs_to_cloudwatch && var.create_aws_nfw ? 1 : 0
 
+  firewall_arn = aws_networkfirewall_firewall.network_firewall[0].arn
+  logging_configuration {
+    log_destination_config {
+      log_destination = {
+        logGroup = aws_cloudwatch_log_group.anfw_alert_log_group.name
+      }
+      log_destination_type = "CloudWatchLogs"
+      log_type             = "ALERT"
+    }
+  }
 
-
-
-
-
+}
