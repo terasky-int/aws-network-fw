@@ -25,12 +25,14 @@ resource "aws_cloudwatch_log_group" "anfw_alert_log_group" {
 }
 
 resource "aws_s3_bucket" "s3_logs_anfw" {
+  # provider = aws.prod
   count         = var.create_anfw_logs_to_s3 ? 1 : 0
   bucket        = var.bucket_name_logging
   force_destroy = true
 }
 
 resource "aws_s3_bucket_acl" "logging_bucket_acl" {
+  # provider = aws.prod
   count  = var.create_anfw_logs_to_s3 ? 1 : 0
   bucket = aws_s3_bucket.s3_logs_anfw[0].id
   acl    = "private"

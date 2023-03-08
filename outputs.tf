@@ -10,14 +10,8 @@ output "arn" {
   value       = var.enable_aws_nfw ? aws_networkfirewall_firewall.network_firewall[0].arn : null
 }
 
-# output "endpoint_ids" {
-#   description = "Created Network Firewall endpoint id"
-#   value       = var.enable_aws_nfw ? (aws_networkfirewall_firewall.network_firewall[0].firewall_status[*].sync_states[*].attachment[*])[*].endpoint_id : null
-# }
-
-
 output "endpoint_ids" {
-  value = aws_networkfirewall_firewall.network_firewall[0].firewall_status[*].sync_states[*].attachment[*].endpoint_id[*]
+  value = var.enable_aws_nfw ? flatten(aws_networkfirewall_firewall.network_firewall[0].firewall_status[*].sync_states[*].attachment[*].endpoint_id[*]) : null
 }
 output "subnet_id" {
   description = "Created Network Firewall subnet id"
