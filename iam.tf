@@ -1,28 +1,55 @@
-# {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Sid": "AWSLogDeliveryWrite",
-#             "Effect": "Allow",
-#             "Principal": {
-#                 "Service": "delivery.logs.amazonaws.com"
-#             },
-#             "Action": "s3:PutObject",
-#             "Resource": "arn:aws:s3:::aws-vpc-flow-logs-<ACCOUNT-ID>/*",
-#             "Condition": {
-#                 "StringEquals": {
-#                     "s3:x-amz-acl": "bucket-owner-full-control"
-#                 }
-#             }
-#         },
-#         {
-#             "Sid": "AWSLogDeliveryAclCheck",
-#             "Effect": "Allow",
-#             "Principal": {
-#                 "Service": "delivery.logs.amazonaws.com"
-#             },
-#             "Action": "s3:GetBucketAcl",
-#             "Resource": "arn:aws:s3:::aws-vpc-flow-logs-<ACCOUNT_ID>"
-#         }
-#     ]
-# }
+  data "aws_iam_policy_document" "policy" {
+  provider = aws.log
+  statement {
+    sid    = "AWSLogDeliveryWrite"
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+    actions   = ["s3:PutObject"]
+    resources = ["arn:aws:s3:::news3logginganfw/*"]
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = ["289094324109"]
+    }
+
+    # condition {
+    #   test     = "ArnLike"
+    #   variable = "aws:SourceArn"
+    #   values   = ["arn:aws:logs:*:289094324109:*"]
+    # }
+
+  }
+  statement {
+    sid    = "AWSLogDeliveryAclCheck"
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+    actions   = ["s3:GetBucketAcl"]
+    resources = ["arn:aws:s3:::news3logginganfw"]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = ["289094324109"]
+    }
+    # condition {
+    #   test     = "ArnLike"
+    #   variable = "aws:SourceArn"
+    #   values   = ["arn:aws:logs:*:289094324109:*"]
+    # }
+  }
+}
+
+output "json" {
+  value = data.aws_iam_policy_document.policy.json
+}

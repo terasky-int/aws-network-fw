@@ -21,28 +21,34 @@ resource "aws_networkfirewall_firewall" "network_firewall" {
 
 ###################### Logging Config ######################
 resource "aws_cloudwatch_log_group" "anfw_alert_log_group" {
+  
   name = "/aws/${var.prefix_environmnet}/network-firewall/alert"
 }
 
 resource "aws_s3_bucket" "s3_logs_anfw" {
-  # provider = aws.prod
+  provider = aws.log
   count         = var.create_anfw_logs_to_s3 ? 1 : 0
   bucket        = var.bucket_name_logging
-  force_destroy = true
+  # force_destroy = true
 }
 
 resource "aws_s3_bucket_acl" "logging_bucket_acl" {
-  # provider = aws.prod
+  provider = aws.log
   count  = var.create_anfw_logs_to_s3 ? 1 : 0
   bucket = aws_s3_bucket.s3_logs_anfw[0].id
   acl    = "private"
 }
 
+resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+provider = aws.log
+  bucket = aws_s3_bucket.s3_logs_anfw[0].id
+  policy = data.aws_iam_policy_document.policy.json
+}
+
 
 resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration_s3" {
-  depends_on = [
-    aws_s3_bucket.s3_logs_anfw
-  ]
+  
+
   count        = var.enable_aws_nfw && var.create_anfw_logs_to_s3 ? 1 : 0
   firewall_arn = aws_networkfirewall_firewall.network_firewall[0].arn
   logging_configuration {
@@ -59,6 +65,7 @@ resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration
 
 
 resource "aws_networkfirewall_logging_configuration" "anfw_logging_cloudwatch" {
+  
   depends_on = [
     aws_networkfirewall_firewall.network_firewall
   ]

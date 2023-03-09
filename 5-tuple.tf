@@ -1,4 +1,5 @@
 resource "aws_networkfirewall_rule_group" "fivetuple_stateful_group" {
+  
   count = length(var.fivetuple_stateful_rule_group) > 0 ? length(var.fivetuple_stateful_rule_group) : 0
   type  = "STATEFUL"
 

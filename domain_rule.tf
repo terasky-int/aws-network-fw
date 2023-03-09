@@ -1,4 +1,5 @@
 resource "aws_networkfirewall_rule_group" "domain_stateful_group" {
+  
   count = length(var.domain_stateful_rule_group) > 0 ? length(var.domain_stateful_rule_group) : 0
   type  = "STATEFUL"
 
