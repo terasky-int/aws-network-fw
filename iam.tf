@@ -8,7 +8,7 @@
       identifiers = ["delivery.logs.amazonaws.com"]
     }
     actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::news3logginganfw/*"]
+    resources = ["arn:aws:s3:::testfirewalllogss3/*"]
     condition {
       test     = "StringEquals"
       variable = "s3:x-amz-acl"
@@ -36,7 +36,7 @@
       identifiers = ["delivery.logs.amazonaws.com"]
     }
     actions   = ["s3:GetBucketAcl"]
-    resources = ["arn:aws:s3:::news3logginganfw"]
+    resources = ["arn:aws:s3:::testfirewalllogss3"]
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
