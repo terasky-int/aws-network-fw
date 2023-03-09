@@ -40,8 +40,8 @@ resource "aws_networkfirewall_rule_group" "domain_stateful_group" {
       rules_source_list {
         generated_rules_type = var.domain_stateful_rule_group[count.index]["actions"]
         target_types         = var.domain_stateful_rule_group[count.index]["protocols"]
-        # targets              = var.domain_stateful_rule_group[count.index]["domain_list"]
-        targets = compact(split("\n", file("../aws-lz-blueprint/allowed_domains.txt")))
+        targets              = var.domain_stateful_rule_group[count.index]["domain_list"]
+        # targets = compact(split("\n", file("../aws-lz-blueprint/allowed_domains.txt")))
       }
     }
   }
