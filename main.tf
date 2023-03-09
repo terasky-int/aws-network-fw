@@ -47,7 +47,9 @@ provider = aws.log
 
 
 resource "aws_networkfirewall_logging_configuration" "anfw_logging_configuration_s3" {
-  
+  depends_on = [
+    aws_s3_bucket.s3_logs_anfw
+  ]
 
   count        = var.enable_aws_nfw && var.create_anfw_logs_to_s3 ? 1 : 0
   firewall_arn = aws_networkfirewall_firewall.network_firewall[0].arn
