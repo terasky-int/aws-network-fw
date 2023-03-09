@@ -18,7 +18,7 @@
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
-      values   = ["289094324109"]
+      values   = ["099780746944"]
     }
 
     # condition {
@@ -40,7 +40,7 @@
     condition {
       test     = "StringEquals"
       variable = "aws:SourceAccount"
-      values   = ["289094324109"]
+      values   = ["099780746944"]
     }
     # condition {
     #   test     = "ArnLike"
