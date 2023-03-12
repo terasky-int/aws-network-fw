@@ -40,7 +40,7 @@ variable "enable_aws_nfw" {
 variable "stateless_fragment_default_actions" {
   description = "Set of actions to take on a fragmented packet if it does not match any of the stateless rules in the policy. You must specify one of the standard actions including: `aws:drop`, `aws:pass`, or `aws:forward_to_sf`e. In addition, you can specify custom actions that are compatible with your standard action choice. If you want non-matching packets to be forwarded for stateful inspection, specify `aws:forward_to_sfe`."
   type        = list(any)
-  default     = ["aws:drop"]
+  default     = ["aws:forward_to_sfe"]
 }
 
 variable "firewall_policy_change_protection" {
@@ -83,7 +83,7 @@ variable "stateless_rule_groups" {
 variable "stateless_default_actions" {
   description = "Set of actions to take on a packet if it does not match any of the stateless rules in the policy. You must specify one of the standard actions including: `aws:drop`, `aws:pass`, or `aws:forward_to_sf`e. In addition, you can specify custom actions that are compatible with your standard action choice. If you want non-matching packets to be forwarded for stateful inspection, specify `aws:forward_to_sfe`."
   type        = list(any)
-  default     = ["aws:drop"]
+  default     = ["aws:forward_to_sfe"]
 }
 
 variable "nfw_log_bucket_name" {
