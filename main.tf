@@ -29,7 +29,7 @@ resource "aws_s3_bucket" "s3_logs_anfw" {
   provider = aws.log
   count         = var.create_anfw_logs_to_s3 ? 1 : 0
   bucket        = var.bucket_name_logging
-  # force_destroy = true
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_acl" "logging_bucket_acl" {
